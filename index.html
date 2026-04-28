@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Peace Life — Choose your immersive ambient world">
+  <title>Peace Life | Choose Your World</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="home">
+
+<!-- ─── MENU BUTTON (Mobile/Tablet) ─── -->
+<button id="menuToggle" class="menu-btn" aria-label="Open menu" aria-expanded="false">☰</button>
+
+<!-- ─── OVERLAY ─── -->
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+<!-- ─── SIDEBAR ─── -->
+<nav class="sidebar" id="sidebar" aria-label="Creator links">
+  <h3 class="creator-name">Soul Lifestyle</h3>
+  <div class="creator-links">
+    <a href="https://youtube.com/@soul_lifestyle0900?si=D5eU-UTFOijlOZ2i" target="_blank" rel="noopener">🥇 YouTube Main</a>
+    <a href="https://youtube.com/@lumaeditz0?si=77iZ2Q3YeAnVu08e" target="_blank" rel="noopener">🥈 YouTube Second</a>
+    <a href="https://youtube.com/@aftermidnightrain?si=vjDDWxsC6FSIyzOP" target="_blank" rel="noopener">🥉 YouTube Third</a>
+    <a href="https://youtube.com/@steamforge0?si=GPSy1WMmRgZhQnv1" target="_blank" rel="noopener">🏅 YouTube Fourth</a>
+    <a href="https://www.instagram.com/ameen_shaik_0900/" target="_blank" rel="noopener">📷 Instagram</a>
+    <a href="https://www.instagram.com/gamegrid.gg/" target="_blank" rel="noopener">🎮 Free Games</a>
+    <a href="https://soullibrary-v2.netlify.app" target="_blank" rel="noopener">📖 Manga Reader</a>
+    <a href="https://youtube.com/@soul_lifestyle0900" target="_blank" rel="noopener">
+      <img src="images/logo.png" class="logo" alt="Soul Lifestyle logo">
+    </a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<main class="home-hero" role="main">
+  <span class="eyebrow">Immersive Experience</span>
+  <h1 class="title">How are you<br>feeling today?</h1>
+  <p class="subtitle">Select a world to begin your journey</p>
+
+  <div class="doors" role="list">
+    <a href="fantasy.html" class="door fantasy" role="listitem" aria-label="Enter Fantasy World">
+      <div class="door-content">
+        <span class="door-world">World 01</span>
+        <span class="door-name">Fantasy</span>
+        <span class="door-badge">✦ Enter</span>
+      </div>
+    </a>
+
+    <a href="dark.html" class="door dark" role="listitem" aria-label="Enter Dark World">
+      <div class="door-content">
+        <span class="door-world">World 02</span>
+        <span class="door-name">Dark</span>
+        <span class="door-badge">✦ Enter</span>
+      </div>
+    </a>
+
+    <a href="nostalgic.html" class="door nostalgic" role="listitem" aria-label="Enter Nostalgic World">
+      <div class="door-content">
+        <span class="door-world">World 03</span>
+        <span class="door-name">Nostalgic</span>
+        <span class="door-badge">✦ Enter</span>
+      </div>
+    </a>
+
+    <a href="peace.html" class="door peace" role="listitem" aria-label="Enter Peace World">
+      <div class="door-content">
+        <span class="door-world">World 04</span>
+        <span class="door-name">Peace</span>
+        <span class="door-badge">✦ Enter</span>
+      </div>
+    </a>
+  </div>
+</main>
+
+<!-- ─── HOME MUSIC ─── -->
+<audio id="bgMusic" loop preload="none">
+  <source src="music/home.mp3" type="audio/mpeg">
+</audio>
+<button id="musicToggle" class="audio-btn" aria-label="Toggle music">🔊</button>
+
+<!-- ─── THEME ─── -->
+<button id="themeToggle" class="theme-btn" aria-label="Change theme">🎨</button>
+
+<!-- ─── PAGE TRANSITION ─── -->
+<div id="pageFade" aria-hidden="true"></div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer" role="contentinfo">
+  <p>Peace Life © 2026 · SOUL–AMEEN 🌿</p>
+</footer>
+
+<script src="js/home-music.js" defer></script>
+<script src="js/theme.js" defer></script>
+<script src="js/transition.js" defer></script>
+</body>
+</html>

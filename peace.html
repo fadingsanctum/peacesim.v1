@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peace World | Immersive Player</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="video-page">
+
+<!-- ── LOADER ── -->
+<div id="loader" class="loader" role="status" aria-live="polite">
+  <div class="loader-ring" aria-hidden="true"></div>
+  <span class="loader-text">Entering World</span>
+</div>
+
+<!-- ── VIDEO ── -->
+<video id="bgVideo" preload="metadata" playsinline loop aria-hidden="true"></video>
+<div class="video-cinematic" aria-hidden="true"></div>
+
+<!-- ── BACK ── -->
+<a href="index.html" class="back-btn" aria-label="Exit world">← <span>Exit World</span></a>
+
+<!-- ── VIDEO NAME ── -->
+<div class="video-info" role="status" aria-live="polite">
+  <span class="video-name-label">Now Playing</span>
+  <span id="videoName">Zen Morning</span>
+</div>
+
+<!-- ── CONTROL BAR ── -->
+<div class="control-bar" role="group" aria-label="Video controls">
+  <div class="controls glass">
+    <button onclick="prevVideo()" aria-label="Previous video" title="Previous (←)">⏮</button>
+    <button onclick="togglePlay()" id="playBtn" class="ctrl-play" aria-label="Play/Pause" title="Play/Pause (Space)">⏸</button>
+    <button onclick="nextVideo()" aria-label="Next video" title="Next (→)">⏭</button>
+    <button onclick="toggleFullscreen()" id="fullscreenBtn" aria-label="Fullscreen" title="Fullscreen (F)">⛶</button>
+    <button onclick="toggleLock()" id="lockBtn" aria-label="Lock screen" title="Lock (L)">🔒</button>
+  </div>
+</div>
+
+<!-- ── MUSIC BUTTON ── -->
+<a href="music.html" class="music-page-btn" aria-label="Open Music Player">🎧 Music</a>
+
+<!-- ── UNLOCK ── -->
+<button onclick="toggleLock()" class="unlock-btn" id="unlockBtn" aria-label="Unlock screen">🔓 Unlock</button>
+
+<!-- ── WORLD CONFIG ── -->
+<script>
+  window.WORLD_VIDEOS = [
+    { src: "videos/peace/peace1.m3u8", name: "Zen Morning" },
+    { src: "videos/peace/peace2.m3u8", name: "Dreaming Passenger" },
+    { src: "videos/peace/peace3.m3u8", name: "Royal Calm" },
+    { src: "videos/peace/peace4.m3u8", name: "Mountain Wind" },
+    { src: "videos/peace/peace5.m3u8", name: "Harmony Fields" }
+  ];
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="js/world-engine.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1566 @@
+/* ═══════════════════════════════════════════════════════════════
+   PEACE LIFE — PREMIUM IMMERSIVE PLATFORM
+   Spotify × Netflix × Apple × Ambient Worlds
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ───── DESIGN TOKENS ───── */
+:root {
+  /* Core Palette */
+  --black: #050505;
+  --surface: rgba(255,255,255,0.04);
+  --surface-hover: rgba(255,255,255,0.09);
+  --border: rgba(255,255,255,0.10);
+  --border-strong: rgba(255,255,255,0.22);
+  --text: rgba(255,255,255,0.92);
+  --text-dim: rgba(255,255,255,0.52);
+  --gold: #E8C97A;
+  --gold-glow: rgba(232,201,122,0.25);
+
+  /* World Accent Colors */
+  --fantasy-color: #a78bfa;
+  --dark-color: #60a5fa;
+  --nostalgic-color: #fb923c;
+  --peace-color: #4ade80;
+
+  /* Glass */
+  --glass: rgba(12,12,14,0.65);
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-border: rgba(255,255,255,0.12);
+
+  /* Easing */
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+  --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+
+  /* Spacing */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 100px;
+
+  /* Fonts */
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+/* ───── RESET & BASE ───── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  background: var(--black);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   HOME PAGE — INDEX.HTML
+   ═══════════════════════════════════════════════════════════════ */
+
+body.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* overflow-x hidden prevents sidebar from causing horizontal scroll,
+     but we do NOT hide overflow-y so the sidebar can slide in from the left
+     without being clipped on tablet/mobile. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Ambient background gradient */
+body.home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 80%, rgba(167,139,250,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(96,165,250,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(232,201,122,0.04) 0%, transparent 70%),
+    #050505;
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientShift 20s ease-in-out infinite alternate;
+}
+
+@keyframes ambientShift {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Noise grain */
+body.home::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed;
+  left: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: 220px;
+  padding: 24px 20px;
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  opacity: 1;
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.sidebar::-webkit-scrollbar { display: none; }
+
+/* Desktop-only entry animation — scoped above 1024px so it never
+   interferes with the mobile slide-in behaviour */
+@media (min-width: 1025px) {
+  .sidebar {
+    opacity: 0;
+    animation: sidebarEntry 0.8s var(--ease-out) 0.4s forwards;
+  }
+}
+
+@keyframes sidebarEntry {
+  from { opacity: 0; transform: translateY(-50%) translateX(-16px); }
+  to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+.creator-name {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.creator-links { display: flex; flex-direction: column; gap: 2px; }
+
+.creator-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  color: var(--text-dim);
+  font-weight: 400;
+  transition: all 0.2s var(--ease-out);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.creator-links a:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+  transform: translateX(3px);
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: all 0.3s var(--ease-spring);
+}
+.logo:hover { transform: scale(1.1); filter: drop-shadow(0 0 8px var(--gold)); }
+
+/* ── MENU BUTTON (Mobile) ── */
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  font-size: 18px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.menu-btn:hover { background: var(--surface-hover); }
+
+/* ── HERO CONTAINER ── */
+.home-hero {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 40px 24px 100px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  animation: heroEntry 1.2s var(--ease-out) 0.1s both;
+}
+
+@keyframes heroEntry {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.75) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 14px;
+}
+
+.subtitle {
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 52px;
+  font-weight: 300;
+}
+
+/* ── WORLD DOORS ── */
+.doors {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.door {
+  position: relative;
+  width: 190px;
+  height: 300px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out), border-color 0.3s;
+  text-decoration: none;
+  display: block;
+  background-size: cover;
+  background-position: center;
+  animation: doorEntry 0.9s var(--ease-out) both;
+}
+
+.door:nth-child(1) { animation-delay: 0.25s; }
+.door:nth-child(2) { animation-delay: 0.35s; }
+.door:nth-child(3) { animation-delay: 0.45s; }
+.door:nth-child(4) { animation-delay: 0.55s; }
+
+@keyframes doorEntry {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Door gradient overlay */
+.door::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.72) 100%);
+  z-index: 1;
+  transition: opacity 0.3s;
+}
+
+/* Door shine on hover */
+.door::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.3s;
+}
+
+.door:hover {
+  transform: translateY(-14px) scale(1.03);
+}
+.door:hover::after { opacity: 1; }
+
+.door-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 18px;
+  z-index: 3;
+}
+
+.door-world {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.door-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text);
+  display: block;
+  margin-bottom: 14px;
+}
+
+.door-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.25s;
+}
+
+.door:hover .door-badge {
+  background: rgba(255,255,255,0.15);
+}
+
+/* World accent colors */
+.fantasy { background-image: url('../images/doors/fantasy.jpg'); }
+.fantasy:hover { box-shadow: 0 30px 60px rgba(167,139,250,0.35); border-color: rgba(167,139,250,0.4); }
+.fantasy .door-badge { color: var(--fantasy-color); border-color: rgba(167,139,250,0.3); }
+
+.dark { background-image: url('../images/doors/dark.jpg'); }
+.dark:hover { box-shadow: 0 30px 60px rgba(96,165,250,0.35); border-color: rgba(96,165,250,0.4); }
+.dark .door-badge { color: var(--dark-color); border-color: rgba(96,165,250,0.3); }
+
+.nostalgic { background-image: url('../images/doors/nostalgic.jpg'); }
+.nostalgic:hover { box-shadow: 0 30px 60px rgba(251,146,60,0.35); border-color: rgba(251,146,60,0.4); }
+.nostalgic .door-badge { color: var(--nostalgic-color); border-color: rgba(251,146,60,0.3); }
+
+.peace { background-image: url('../images/doors/peace.jpg'); }
+.peace:hover { box-shadow: 0 30px 60px rgba(74,222,128,0.35); border-color: rgba(74,222,128,0.4); }
+.peace .door-badge { color: var(--peace-color); border-color: rgba(74,222,128,0.3); }
+
+/* ── FLOATING CONTROLS (Home) ── */
+.audio-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 28px;
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s var(--ease-out);
+}
+.audio-btn:hover { background: var(--surface-hover); transform: scale(1.1); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+
+.theme-btn {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s var(--ease-spring);
+}
+.theme-btn:hover { background: var(--surface-hover); transform: rotate(20deg) scale(1.1); }
+
+/* ── FOOTER ── */
+.footer {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  z-index: 50;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.footer p { color: inherit; }
+
+/* ── PAGE TRANSITION ── */
+#pageFade {
+  position: fixed;
+  inset: 0;
+  background: #050505;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-out);
+}
+#pageFade.active { opacity: 1; }
+
+/* ── THEME SYSTEM ── */
+/* THEMES - Fixed specificity */
+/* NOTE: theme.js now preserves existing classes (e.g. "home"), so themes */
+/* coexist with layout classes. These rules only set background color/gradient. */
+body.dark { background: #050505; }
+body.sunset { background: linear-gradient(to bottom, #ff7e5f, #feb47b); }
+body.night { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
+body.nature { background: linear-gradient(to bottom, #134e5e, #71b280); }
+
+/* Ensure home layout is never broken by a theme class */
+body.home { display: flex; align-items: center; justify-content: center; }
+
+body.dark .footer {
+color: gold;
+}
+
+body.sunset .footer {
+color: #2b2b2b;
+}
+
+body.night .footer {
+color: #9fd3ff;
+}
+
+body.nature .footer {
+color: #eaffd0;
+}
+
+/* OCEAN */
+
+body.ocean {
+background: linear-gradient(
+to bottom,
+#0f2027,
+#2c5364,
+#4facfe
+);
+}
+
+/* CYBERPUNK */
+
+body.cyberpunk {
+background: linear-gradient(
+to bottom,
+#ff00cc,
+#333399
+);
+}
+
+/* FOREST */
+
+body.forest {
+background: linear-gradient(
+to bottom,
+#134e5e,
+#2c7744
+);
+}
+
+/* MIDNIGHT */
+
+body.midnight {
+background: linear-gradient(
+to bottom,
+#000000,
+#0f2027
+);
+}
+
+/* LAVA */
+
+body.lava {
+background: linear-gradient(
+to bottom,
+#200000,
+#ff3c00
+);
+}
+
+/* AURORA */
+
+body.aurora {
+background: linear-gradient(
+to bottom,
+#0f2027,
+#00c9ff,
+#92fe9d
+);
+}
+/* ═══════════════════════════════════════════════════════════════
+   VIDEO WORLD PAGES
+   ═══════════════════════════════════════════════════════════════ */
+
+body.video-page {
+  overflow: hidden;
+  display: block;
+  padding: 0;
+  background: #000;
+}
+
+/* Fullscreen video */
+#bgVideo {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Cinematic overlay */
+.video-cinematic {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 30%),
+    linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 20%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── WORLD LOADER ── */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  transition: opacity 0.7s var(--ease-out);
+}
+.loader.hidden { opacity: 0; pointer-events: none; }
+
+.loader-ring {
+  width: 52px;
+  height: 52px;
+  border: 2px solid rgba(255,255,255,0.08);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loader-text {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ── VIDEO NAME DISPLAY ── */
+.video-info {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+}
+
+.video-name-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 4px;
+}
+
+#videoName {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  display: block;
+}
+
+/* ── CONTROL BAR ── */
+.control-bar {
+  position: fixed;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(8,8,10,0.72);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  pointer-events: all;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.controls button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: all 0.2s var(--ease-out);
+  opacity: 0.7;
+}
+.controls button:hover {
+  opacity: 1;
+  background: var(--surface-hover);
+  transform: scale(1.12);
+}
+
+.ctrl-play {
+  width: 52px !important;
+  height: 52px !important;
+  background: rgba(255,255,255,0.12) !important;
+  font-size: 20px !important;
+  opacity: 1 !important;
+}
+.ctrl-play:hover { background: rgba(255,255,255,0.22) !important; }
+
+/* ── BACK BUTTON ── */
+.back-btn {
+  position: fixed;
+  top: 24px;
+  left: 28px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: rgba(8,8,10,0.65);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  transition: all 0.25s var(--ease-out);
+}
+.back-btn:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateX(-3px);
+  border-color: var(--border-strong);
+}
+
+/* ── MUSIC PAGE BUTTON ── */
+.music-page-btn {
+  position: fixed;
+  bottom: 36px;
+  right: 28px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: var(--radius-pill);
+  background: rgba(8,8,10,0.72);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  transition: all 0.25s var(--ease-out);
+}
+.music-page-btn:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+/* ── LOCK MODE ── */
+.locked .control-bar,
+.locked .back-btn,
+.locked .music-page-btn,
+.locked .video-info { opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+
+.unlock-btn {
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  z-index: 9999;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.unlock-btn.show { opacity: 1; pointer-events: all; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MUSIC WORLD — SPOTIFY-LEVEL PLAYER
+   ═══════════════════════════════════════════════════════════════ */
+
+body.music-world {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 1fr;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 70%, rgba(232,201,122,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 80% 30%, rgba(96,165,250,0.05) 0%, transparent 55%),
+    #080808;
+}
+
+/* ── PLAYLIST SIDEBAR ── */
+.music-sidebar {
+  grid-row: 1;
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0,0,0,0.6);
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  height: 100vh;
+}
+
+.sidebar-header {
+  padding: 28px 22px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.track-count {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Search Bar */
+.search-wrap {
+  padding: 14px 16px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+.search-box {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--font-body);
+  outline: none;
+  transition: all 0.2s;
+}
+.search-box::placeholder { color: var(--text-dim); }
+.search-box:focus {
+  border-color: rgba(232,201,122,0.35);
+  background: rgba(255,255,255,0.06);
+}
+
+/* Playlist */
+.playlist {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 10px 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+.playlist::-webkit-scrollbar { width: 4px; }
+.playlist::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+
+.song {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s var(--ease-out);
+  border: 1px solid transparent;
+}
+.song:hover { background: var(--surface-hover); }
+
+.song.active {
+  background: rgba(232,201,122,0.08);
+  border-color: rgba(232,201,122,0.18);
+}
+
+.song-number {
+  font-size: 11px;
+  color: var(--text-dim);
+  width: 22px;
+  flex-shrink: 0;
+  text-align: right;
+}
+.song.active .song-number { color: var(--gold); }
+
+.song-info { flex: 1; min-width: 0; }
+
+.song-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+.song.active .song-name { color: var(--gold); }
+
+/* Equalizer bars when active */
+.song-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  opacity: 0;
+  flex-shrink: 0;
+}
+.song.active .song-eq { opacity: 1; }
+.eq-bar {
+  width: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+  animation: eqBounce 0.8s ease-in-out infinite alternate;
+}
+.eq-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
+.eq-bar:nth-child(2) { height: 80%; animation-delay: 0.15s; }
+.eq-bar:nth-child(3) { height: 60%; animation-delay: 0.3s; }
+@keyframes eqBounce {
+  0%   { transform: scaleY(0.4); }
+  100% { transform: scaleY(1); }
+}
+
+/* ── MAIN PLAYER ── */
+.music-player {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 40px;
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Dynamic background blur from cover */
+.player-bg-blur {
+  position: absolute;
+  inset: -40px;
+  background-size: cover;
+  background-position: center;
+  filter: blur(80px) saturate(1.5);
+  opacity: 0.1;
+  pointer-events: none;
+  transition: background-image 0.8s;
+  z-index: 0;
+}
+
+.player-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 440px;
+}
+
+/* ── COVER ART ── */
+.cover-wrap {
+  position: relative;
+  width: clamp(200px, 35vw, 320px);
+  aspect-ratio: 1;
+}
+
+#cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.08),
+    0 30px 80px rgba(0,0,0,0.7),
+    0 0 60px rgba(232,201,122,0.12);
+  transition: all 0.6s var(--ease-out);
+  display: block;
+}
+#cover:hover { transform: scale(1.02); }
+
+/* Spinning disc when playing */
+.cover-disc {
+  position: absolute;
+  bottom: -14px;
+  right: -14px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #222 30%, #111 100%);
+  border: 3px solid var(--border);
+  animation: spinDisc 4s linear infinite paused;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.cover-disc::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #050505;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+body.playing .cover-disc { animation-play-state: running; }
+@keyframes spinDisc { to { transform: rotate(360deg); } }
+
+/* ── TRACK INFO ── */
+.track-meta { text-align: center; width: 100%; }
+
+.track-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-artist {
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ── PROGRESS ── */
+.progress-section { width: 100%; }
+
+.progress-wrap {
+  position: relative;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: height 0.2s;
+}
+.progress-wrap:hover { height: 6px; }
+
+.progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold) 0%, rgba(232,201,122,0.8) 100%);
+  border-radius: 4px;
+  pointer-events: none;
+  transition: width 0.1s linear;
+}
+
+.progress-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.2s var(--ease-spring);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.progress-wrap:hover .progress-thumb { transform: translate(-50%,-50%) scale(1); }
+
+#progressBar {
+  position: absolute;
+  inset: -8px 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── PLAYER CONTROLS ── */
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.ctrl-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--text-dim);
+  transition: all 0.2s var(--ease-out);
+}
+.ctrl-btn:hover { color: var(--text); background: var(--surface-hover); transform: scale(1.1); }
+
+.ctrl-btn.active-mode { color: var(--gold); }
+
+.ctrl-play-main {
+  width: 60px !important;
+  height: 60px !important;
+  font-size: 22px !important;
+  background: var(--text) !important;
+  color: var(--black) !important;
+  border-radius: 50%;
+  box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+  margin: 0 8px;
+  transition: all 0.25s var(--ease-spring) !important;
+}
+.ctrl-play-main:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 6px 28px rgba(255,255,255,0.3);
+}
+
+/* ── FAV BUTTON ── */
+#favBtn {
+  font-size: 20px;
+  transition: all 0.25s var(--ease-spring);
+}
+#favBtn:hover { transform: scale(1.2); }
+#favBtn.favorited { color: var(--gold); filter: drop-shadow(0 0 8px var(--gold-glow)); }
+
+/* ── VOLUME ── */
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.vol-icon { font-size: 16px; color: var(--text-dim); flex-shrink: 0; }
+.vol-max  { font-size: 11px; color: var(--text-dim); flex-shrink: 0; }
+
+#volumeControl {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+#volumeControl::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+
+#volumeValue {
+  font-size: 11px;
+  color: var(--text-dim);
+  width: 28px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── TOP ACTIONS ── */
+.music-top {
+  position: fixed;
+  top: 0;
+  left: 280px;
+  right: 0;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+  pointer-events: none;
+}
+.music-top > * { pointer-events: all; }
+
+.favorites-top-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  transition: all 0.25s;
+}
+.favorites-top-btn:hover {
+  background: var(--surface-hover);
+  border-color: rgba(232,201,122,0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SHARED UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+
+/* Sidebar overlay for mobile — sits between page content and sidebar */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 140; /* below sidebar (150) and menu btn (200), above everything else */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  /* Only relevant on mobile/tablet — hidden on desktop via JS not showing it */
+}
+.sidebar-overlay.active { opacity: 1; pointer-events: all; }
+
+/* Rotate message */
+#rotateMessage {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE FIRST
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Tablet / Small Desktop */
+@media (max-width: 1024px) {
+  /* ── Sidebar becomes a full-height slide-in drawer ── */
+  .sidebar {
+    /* Override the desktop positioning entirely */
+    left: 0;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: 270px;
+    max-height: none;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    /* Hidden off-screen to the left via transform (more reliable than left:-300px
+       because it doesn't fight with the animation's transform fill) */
+    transform: translateX(-100%);
+    /* Ensure animation is fully cancelled on mobile */
+    animation: none;
+    opacity: 1;
+    /* Smooth slide transition */
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+    z-index: 150;
+    box-shadow: none;
+  }
+
+  /* When active, slide in */
+  .sidebar.active {
+    transform: translateX(0);
+    box-shadow: 4px 0 40px rgba(0,0,0,0.6);
+  }
+
+  /* Show the hamburger button */
+  .menu-btn { display: flex; }
+
+  /* Music */
+  body.music-world {
+    grid-template-columns: 240px 1fr;
+  }
+  .music-top { left: 240px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* Home page: allow scrolling so all cards are reachable */
+  body.home {
+    overflow-y: auto;
+    align-items: flex-start;
+    padding-bottom: 80px;
+  }
+  .home-hero { padding: 100px 20px 80px; }
+
+  .doors { flex-direction: column; align-items: center; gap: 14px; }
+  .door { width: min(88%, 300px); height: 200px; }
+  .door:hover { transform: translateY(-8px) scale(1.02); }
+
+  /* Video controls */
+  .control-bar { bottom: 24px; }
+  .back-btn { top: 18px; left: 16px; padding: 9px 14px; font-size: 12px; }
+  .music-page-btn { bottom: 24px; right: 16px; padding: 9px 16px; font-size: 12px; }
+  .video-info { bottom: 90px; }
+
+  /* Music layout */
+  body.music-world {
+    grid-template-columns: 1fr;
+    grid-template-rows: 45vh 1fr;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+  .music-sidebar {
+    grid-row: 1;
+    grid-column: 1;
+    height: 45vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .music-player {
+    grid-row: 2;
+    grid-column: 1;
+    padding: 28px 24px 80px;
+    height: auto;
+  }
+  .music-top { left: 0; }
+  .cover-wrap { width: min(75%, 260px); }
+
+  /* Footer */
+  .footer { font-size: 9px; }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .title { font-size: 2rem; }
+  .door { height: 170px; }
+  .controls button { width: 38px; height: 38px; font-size: 16px; }
+  .ctrl-play { width: 46px !important; height: 46px !important; font-size: 18px !important; }
+}
+
+/* Large screens / TV */
+@media (min-width: 1600px) {
+  .door { width: 220px; height: 350px; }
+  .title { font-size: 5rem; }
+  .music-sidebar { width: 320px; }
+  body.music-world { grid-template-columns: 320px 1fr; }
+  .music-top { left: 320px; }
+  #cover { width: 380px; }
+  .ctrl-play-main { width: 72px !important; height: 72px !important; font-size: 26px !important; }
+}
+
+/* Touch devices */
+@media (hover: none) {
+  .door:hover { transform: none; }
+  .door:active { transform: scale(0.97); opacity: 0.9; }
+}
+
+/* Landscape phone — keep hero visible without big scroll */
+@media (max-width: 900px) and (orientation: landscape) {
+  body.home {
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+  .home-hero { padding: 70px 20px 60px; }
+  .doors { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .door { width: 150px; height: 170px; }
+  #bgVideo { width: 100vw; height: 100vh; object-fit: cover; }
+}
+
+/* Focus states - accessibility */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ───────── PREMIUM DOOR HOVER UPGRADE ───────── */
+
+/* Smooth hover motion */
+.door {
+  transition:
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out),
+    border-color 0.3s,
+    filter 0.3s;
+}
+
+/* Main hover lift + zoom */
+.door:hover {
+  transform: translateY(-16px) scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Glow pulse effect */
+.door::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+/* Glow per world */
+.fantasy:hover {
+  box-shadow:
+    0 30px 60px rgba(167,139,250,0.35),
+    0 0 40px rgba(167,139,250,0.25);
+}
+
+.dark:hover {
+  box-shadow:
+    0 30px 60px rgba(96,165,250,0.35),
+    0 0 40px rgba(96,165,250,0.25);
+}
+
+.nostalgic:hover {
+  box-shadow:
+    0 30px 60px rgba(251,146,60,0.35),
+    0 0 40px rgba(251,146,60,0.25);
+}
+
+.peace:hover {
+  box-shadow:
+    0 30px 60px rgba(74,222,128,0.35),
+    0 0 40px rgba(74,222,128,0.25);
+}
+
+/* Badge animation */
+.door-badge {
+  transition:
+    transform 0.3s var(--ease-spring),
+    background 0.3s;
+}
+
+.door:hover .door-badge {
+  transform: translateY(-4px) scale(1.08);
+  background: rgba(255,255,255,0.18);
+}
+
+/* Title zoom effect */
+.door-name {
+  transition: transform 0.3s;
+}
+
+.door:hover .door-name {
+  transform: scale(1.08);
+}
+
+/* ───────── TRUE DOOR HOVER (SURFACE ONLY) ───────── */
+
+.door {
+  position: relative;
+  transform-style: preserve-3d;
+
+  transition:
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out),
+    border-color 0.3s,
+    filter 0.3s;
+}
+
+/* Door lift + depth */
+.door:hover {
+  transform:
+    translateY(-14px)
+    scale(1.04)
+    rotateX(2deg);
+
+  filter: brightness(1.08);
+}
+
+/* EDGE GLOW */
+.door:hover {
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.15);
+}
+
+/* LIGHT SWEEP EFFECT */
+.door::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255,255,255,0.15) 40%,
+      transparent 60%
+    );
+
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.door:hover::before {
+  transform: translateX(120%);
+}
+
+/* SOFT FLOOR GLOW UNDER DOOR */
+.door::after {
+  content: '';
+  position: absolute;
+
+  bottom: -18px;
+  left: 50%;
+
+  width: 70%;
+  height: 24px;
+
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255,255,255,0.12),
+    transparent 70%
+  );
+
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.door:hover::after {
+  opacity: 1;
+}
+
+/* ── MUSIC BUTTON FIX ── */
+.music-page-btn {
+  position: fixed;
+  right: 16px;
+
+  /* Move ABOVE control bar */
+  bottom: 90px;   /* adjust if needed */
+
+  z-index: 60;
+}
+
+/* Extra safety for very small phones */
+@media (max-width: 420px) {
+  .music-page-btn {
+    bottom: 100px;
+    right: 14px;
+  }
+}

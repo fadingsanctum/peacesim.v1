@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nostalgic World | Immersive Player</title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="video-page">
+
+<div id="loader" class="loader" role="status" aria-live="polite">
+  <div class="loader-ring" aria-hidden="true"></div>
+  <span class="loader-text">Entering World</span>
+</div>
+
+<video id="bgVideo" preload="metadata" playsinline loop aria-hidden="true"></video>
+<div class="video-cinematic" aria-hidden="true"></div>
+
+<a href="index.html" class="back-btn" aria-label="Exit world">← <span>Exit World</span></a>
+
+<div class="video-info" role="status" aria-live="polite">
+  <span class="video-name-label">Now Playing</span>
+  <span id="videoName">Fading Gold</span>
+</div>
+
+<div class="control-bar" role="group" aria-label="Video controls">
+  <div class="controls glass">
+    <button onclick="prevVideo()" aria-label="Previous">⏮</button>
+    <button onclick="togglePlay()" id="playBtn" class="ctrl-play" aria-label="Play/Pause">⏸</button>
+    <button onclick="nextVideo()" aria-label="Next">⏭</button>
+    <button onclick="toggleFullscreen()" id="fullscreenBtn" aria-label="Fullscreen">⛶</button>
+    <button onclick="toggleLock()" id="lockBtn" aria-label="Lock">🔒</button>
+  </div>
+</div>
+
+<a href="music.html" class="music-page-btn">🎧 Music</a>
+<button onclick="toggleLock()" class="unlock-btn" id="unlockBtn">🔓 Unlock</button>
+
+<script>
+  window.WORLD_VIDEOS = [
+    { src: "videos/nostalgic/n1.m3u8", name: "Fading Gold" },
+    { src: "videos/nostalgic/n2.m3u8", name: "Storm of Memories" },
+    { src: "videos/nostalgic/n3.m3u8", name: "Memory Lane" },
+    { src: "videos/nostalgic/n4.m3u8", name: "Forgotten Winds" },
+    { src: "videos/nostalgic/n5.m3u8", name: "Waving Smiles" }
+  ];
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="js/world-engine.js" defer></script>
+</body>
+</html>
