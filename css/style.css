@@ -1,0 +1,3760 @@
+:root {
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --blur: blur(12px);
+    --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    --gold: #FFD700
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: #050505;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-direction: column;
+    padding: 40px 0;
+}
+
+/* Landing Page */
+.container { text-align: center; }
+.title {
+    font-size: clamp(2rem, 8vw, 4rem); /* Smaller on mobile, massive on TV */
+    padding: 0 20px;
+}
+.subtitle {
+    font-size: clamp(0.7rem, 2vw, 1rem);
+    letter-spacing: clamp(1px, 1vw, 5px);
+}
+.doors {
+
+display: flex;
+
+flex-wrap: wrap;
+
+justify-content: center;
+
+align-items: center;
+
+gap: clamp(16px, 2vw, 30px);
+
+padding: 20px;
+
+max-width: 1200px;
+
+margin: auto;
+
+}
+.door {
+    width: clamp(140px, 200px, 260px);
+    height: clamp(200px, 320px, 400px);
+    border-radius: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 30px;
+    text-decoration: none;
+    color: white;
+    border: 1px solid var(--glass-border);
+    transition: var(--transition);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.door::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8));
+    transition: 0.3s;
+}
+
+.door span {
+    position: relative;
+    z-index: 2;
+    background: var(--glass);
+    backdrop-filter: var(--blur);
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    border: 1px solid var(--glass-border);
+    letter-spacing: 1px;
+}
+
+/* Hover Effects */
+.door:hover {
+    transform: translateY(-20px) scale(1.05);
+    border-color: rgba(255,255,255,0.6);
+}
+
+.fantasy:hover { box-shadow: 0 15px 40px rgba(168, 85, 247, 0.4); }
+.dark:hover { box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4); }
+.nostalgic:hover { box-shadow: 0 15px 40px rgba(251, 146, 60, 0.4); }
+.peace:hover { box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4); }
+
+/* Player UI */
+.back-btn {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    z-index: 10;
+    color: white;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 60px;
+    background: var(--glass);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    transition: 0.3s;
+}
+
+.back-btn:hover { background: rgba(255,255,255,0.2); transform: translateX(-5px); }
+
+.player-overlay {
+
+position: fixed;
+
+bottom: 40px;
+
+left: 50%;
+
+transform: translateX(-50%);
+
+width: auto;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+gap: 12px;
+
+z-index: 10;
+
+}
+
+/* ========================================= */
+/* FIX CONTROL BAR WIDTH */
+/* ========================================= */
+
+.controls {
+
+display: flex;
+
+gap: 18px;
+
+padding: 14px 22px;
+
+border-radius: 60px;
+
+background: var(--glass);
+
+backdrop-filter: var(--blur);
+
+border: 1px solid var(--glass-border);
+
+/* KEY FIX */
+
+width: fit-content;
+
+max-width: 90vw;
+
+justify-content: center;
+
+}
+.controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    transition: 0.3s;
+    opacity: 0.7;
+}
+
+.controls button:hover { opacity: 1; transform: scale(1.2); }
+
+#bgVideo {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    z-index: -1;
+}
+
+/* Animations */
+.fade-in { animation: fadeUp 1.2s ease-out forwards; }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ... keep existing :root and * rules ... */
+
+body {
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+    transition: background 0.8s ease; /* Smooth theme transitions */
+}
+
+/* THEMES - Fixed specificity */
+body.dark { background: #050505; }
+body.sunset { background: linear-gradient(to bottom, #ff7e5f, #feb47b); }
+body.night { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
+body.nature { background: linear-gradient(to bottom, #134e5e, #71b280); }
+
+/* Updated Theme Button to match Glassmorphism */
+.theme-btn {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 50%;
+    background: var(--glass);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.theme-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: rotate(15deg) scale(1.1);
+}
+
+/* Door Overlay Fix - Ensures span is always visible */
+.door::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7));
+    z-index: 1;
+}
+
+.door span {
+    position: relative;
+    z-index: 2;
+    /* ... keep existing span styles ... */
+}
+
+/* Remove all #loader and .spinner styles */
+
+/* New Page Fade-In */
+.fade-in-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: #050505;
+    z-index: 9999;
+    pointer-events: none;
+    animation: welcomeFade 1.5s ease-out forwards;
+}
+
+@keyframes welcomeFade {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+/* Ensure content underneath also fades up slightly for a premium feel */
+.player-overlay {
+
+opacity: 0;
+
+animation: fadeOnly 0.6s ease forwards;
+
+}
+
+@keyframes fadeOnly {
+
+to {
+
+opacity: 1;
+
+}
+
+}
+
+@keyframes contentRise {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* DOOR BACKGROUND IMAGES */
+
+.fantasy {
+background-image: url("../images/doors/fantasy.jpg");
+}
+
+.dark {
+background-image: url("../images/doors/dark.jpg");
+}
+
+.nostalgic {
+background-image: url("../images/doors/nostalgic.jpg");
+}
+
+.peace {
+background-image: url("../images/doors/peace.jpg");
+}
+
+/* Dark overlay for readability */
+
+.door {
+position: relative;
+overflow: hidden;
+}
+
+.door::before {
+content: "";
+position: absolute;
+inset: 0;
+background: rgba(0,0,0,0.4);
+}
+
+.door span {
+position: relative;
+z-index: 1;
+}
+
+.fantasy:hover {
+box-shadow: 0 0 25px rgba(168, 85, 247, 0.7);
+}
+
+.dark:hover {
+box-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
+}
+
+.nostalgic:hover {
+box-shadow: 0 0 25px rgba(251, 146, 60, 0.7);
+}
+
+.peace:hover {
+box-shadow: 0 0 25px rgba(34, 197, 94, 0.7);
+}
+
+.fade-in {
+    animation: fadeUp 1.2s ease-out;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.music-panel {
+
+display: flex;
+
+gap: 15px;
+
+padding: 12px 20px;
+
+border-radius: 100px;
+
+align-items: center;
+
+}
+
+.music-panel select {
+
+background: rgba(255,255,255,0.1);
+
+color: white;
+
+border: 1px solid rgba(255,255,255,0.2);
+
+padding: 6px 12px;
+
+border-radius: 12px;
+
+font-size: 14px;
+
+cursor: pointer;
+
+backdrop-filter: blur(8px);
+
+}
+
+/* Dropdown items */
+
+.music-panel select option {
+
+background: #111;
+
+color: white;
+
+}
+
+.music-dropdown {
+
+position: relative;
+
+}
+
+#musicBtn {
+
+background: rgba(255,255,255,0.1);
+
+color: white;
+
+border: 1px solid rgba(255,255,255,0.2);
+
+padding: 8px 14px;
+
+border-radius: 12px;
+
+cursor: pointer;
+
+}
+
+/* Scroll Menu */
+
+.music-menu {
+
+position: absolute;
+
+bottom: 50px;
+
+left: 0;
+
+width: 180px;
+
+max-height: 180px;
+
+overflow-y: auto;
+
+background: rgba(0,0,0,0.9);
+
+border-radius: 14px;
+
+padding: 8px;
+
+display: none;
+
+}
+
+/* Scrollbar */
+
+.music-menu::-webkit-scrollbar {
+
+width: 6px;
+
+}
+
+.music-menu::-webkit-scrollbar-thumb {
+
+background: rgba(255,255,255,0.3);
+
+border-radius: 10px;
+
+}
+
+/* Items */
+
+.music-item {
+
+padding: 8px 10px;
+
+cursor: pointer;
+
+border-radius: 8px;
+
+transition: 0.2s;
+
+}
+
+.music-item:hover {
+
+background: rgba(255,255,255,0.1);
+
+}
+
+
+.music-panel input[type="range"] {
+
+width: 100px;
+
+cursor: pointer;
+
+}
+
+@media (max-width: 768px) {
+
+.footer {
+position: fixed;
+bottom: 20px;
+width: 100%;
+text-align: center;
+font-size: 11px;
+opacity: 0.6;
+letter-spacing: 2px;
+transition: color 0.4s ease;
+}
+
+} 
+
+/* Theme-based colors */
+
+body.dark .footer {
+color: gold;
+}
+
+body.sunset .footer {
+color: #2b2b2b;
+}
+
+body.night .footer {
+color: #9fd3ff;
+}
+
+body.nature .footer {
+color: #eaffd0;
+}
+
+/* OCEAN */
+
+body.ocean {
+background: linear-gradient(
+to bottom,
+#0f2027,
+#2c5364,
+#4facfe
+);
+}
+
+/* CYBERPUNK */
+
+body.cyberpunk {
+background: linear-gradient(
+to bottom,
+#ff00cc,
+#333399
+);
+}
+
+/* FOREST */
+
+body.forest {
+background: linear-gradient(
+to bottom,
+#134e5e,
+#2c7744
+);
+}
+
+/* MIDNIGHT */
+
+body.midnight {
+background: linear-gradient(
+to bottom,
+#000000,
+#0f2027
+);
+}
+
+/* LAVA */
+
+body.lava {
+background: linear-gradient(
+to bottom,
+#200000,
+#ff3c00
+);
+}
+
+/* AURORA */
+
+body.aurora {
+background: linear-gradient(
+to bottom,
+#0f2027,
+#00c9ff,
+#92fe9d
+);
+}
+
+
+/* SIDEBAR FIXED VERSION */
+
+.sidebar {
+
+position: fixed;
+
+left: 40px;
+
+top: 50%;
+
+transform: translateY(-50%);
+
+padding: 25px 18px;
+
+border-radius: 18px;
+
+background: rgba(255,255,255,0.05);
+
+backdrop-filter: blur(10px);
+
+border: 1px solid rgba(255,255,255,0.1);
+
+display: flex;
+
+flex-direction: column;
+
+gap: 18px;
+
+min-width: 160px;
+
+z-index: 10;
+
+}
+
+/* Creator Name */
+
+.creator-name {
+
+font-size: 13px;
+
+letter-spacing: 2px;
+
+opacity: 0.7;
+
+margin-bottom: 8px;
+
+}
+
+/* Links */
+
+.creator-links {
+
+display: flex;
+
+flex-direction: column;
+
+gap: 12px;
+
+}
+
+.creator-links a {
+
+text-decoration: none;
+
+color: white;
+
+font-size: 13px;
+
+opacity: 0.65;
+
+transition: 0.3s;
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+}
+
+.creator-links a:hover {
+
+opacity: 1;
+
+transform: translateX(4px);
+
+}
+
+
+.logo {
+
+width: 38px;
+
+margin-bottom: 10px;
+
+opacity: 0.9;
+
+}
+
+.sidebar {
+
+opacity: 0;
+
+animation: sidebarFade 1.2s ease forwards;
+animation-delay: 0.5s;
+
+}
+
+@keyframes sidebarFade {
+
+from {
+    opacity: 0;
+}
+
+to {
+    opacity: 1;
+}
+
+}
+
+.creator-links a:hover {
+    color: #a8e063;
+}
+
+
+/* Panel */
+
+.audio-panel {
+
+position: fixed;
+
+bottom: 110px;
+
+left: 40px;
+right: 40px;
+
+width: 220px;
+
+padding: 20px;
+
+border-radius: 16px;
+
+background: rgba(0,0,0,0.85);
+
+display: none;
+
+flex-direction: column;
+
+gap: 12px;
+
+}
+
+/* Scrollable list */
+
+.audio-list {
+
+max-height: 150px;
+
+overflow-y: auto;
+
+}
+
+/* Items */
+
+.audio-item {
+
+padding: 8px;
+
+cursor: pointer;
+
+border-radius: 8px;
+
+}
+
+.audio-item:hover {
+
+background: rgba(255,255,255,0.1);
+
+}
+
+.music-page-btn {
+
+position: fixed;
+
+/* Default (desktop) */
+bottom: 150px;
+
+right: 40px;
+
+z-index: 20;
+
+padding: 12px 18px;
+
+border-radius: 40px;
+
+background: rgba(255,255,255,0.12);
+
+backdrop-filter: blur(12px);
+
+border: 1px solid rgba(255,255,255,0.25);
+
+text-decoration: none;
+
+color: white;
+
+transition: 0.25s;
+
+}
+
+.music-page-btn:hover {
+
+transform: translateY(-2px);
+
+}
+
+@media (max-width: 768px) {
+
+.music-page-btn {
+
+bottom: 120px;
+right: 18px;
+
+}
+
+}
+
+/* MUSIC WORLD */
+
+.music-world {
+
+display: flex;
+
+height: 100vh;
+
+background: black;
+
+}
+
+/* LEFT SIDEBAR */
+
+.music-sidebar {
+
+width: 260px;
+
+background: rgba(0,0,0,0.9);
+
+padding: 20px;
+
+overflow-y: auto;
+
+}
+
+.playlist {
+
+display: flex;
+
+flex-direction: column;
+
+gap: 10px;
+
+}
+
+.song {
+
+padding: 10px;
+
+border-radius: 10px;
+
+cursor: pointer;
+
+transition: 0.2s;
+
+}
+
+.song:hover {
+
+background: rgba(255,255,255,0.1);
+
+}
+
+/* MAIN PLAYER */
+
+.music-player {
+
+flex: 1;
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+justify-content: center;
+
+gap: 20px;
+
+}
+
+#cover {
+
+width: 420px;
+
+border-radius: 18px;
+
+}
+
+.player-controls {
+
+display: flex;
+
+gap: 30px;
+
+font-size: 28px;
+
+}
+
+#fullscreenBtn {
+
+font-size: 22px;
+
+}
+
+#fullscreenBtn:hover {
+
+transform: scale(1.2);
+
+}
+
+.footer {
+
+text-shadow:
+0 0 6px rgba(0,0,0,0.6);
+
+}
+
+body.dark .footer {
+color: gold;
+text-shadow: 0 0 10px rgba(255,215,0,0.6);
+opacity: 0.8;
+font-weight: 500;
+}
+
+body.sunset .footer {
+color: #2b2b2b;
+text-shadow: 0 0 6px rgba(255,255,255,0.6);
+}
+
+body.night .footer {
+color: #9fd3ff;
+text-shadow: 0 0 10px rgba(159,211,255,0.6);
+}
+
+body.nature .footer {
+color: #eaffd0;
+text-shadow: 0 0 8px rgba(200,255,200,0.5);
+}
+
+
+/* ROTATE MESSAGE */
+
+#rotateMessage {
+
+position: fixed;
+top: 0;
+left: 0;
+
+width: 100vw;
+height: 100vh;
+
+background: black;
+color: white;
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+font-size: 20px;
+text-align: center;
+
+z-index: 9999;
+
+display: none;
+
+}
+
+@media screen and (orientation: portrait) {
+
+#rotateMessage {
+
+display: none; /* hide rotate warning */
+
+}
+
+.video-page video {
+
+display: block; /* allow video */
+
+width: 100vw;
+height: 100vh;
+
+object-fit: cover;
+
+}
+
+}
+
+/* LANDSCAPE MODE VIDEO */
+
+@media screen and (orientation: landscape) {
+
+.video-page video {
+
+display: block;
+
+width: 100vw;
+height: 100vh;
+
+object-fit: cover;
+
+}
+
+}
+
+/* MOBILE CONTROLS */
+
+@media (max-width: 768px) {
+
+.controls {
+
+width: 90%;
+gap: 18px;
+padding: 14px 18px;
+
+}
+
+.controls button {
+
+font-size: 32px;
+
+}
+
+.music-page-btn {
+
+font-size: 16px;
+padding: 14px 20px;
+
+}
+
+}
+
+/* TABLET MODE */
+
+@media (max-width: 1024px) {
+
+.doors {
+
+flex-wrap: wrap;
+gap: 20px;
+
+}
+
+.door {
+
+width: 160px;
+height: 260px;
+
+}
+
+}
+
+/* MOBILE MODE */
+
+@media (max-width: 768px) {
+
+.container {
+
+padding: 20px;
+
+}
+
+.title {
+
+font-size: 2.2rem;
+
+}
+
+.subtitle {
+
+font-size: 0.7rem;
+margin-bottom: 30px;
+
+}
+
+.doors {
+
+flex-direction: column;
+align-items: center;
+gap: 18px;
+
+}
+
+.door {
+
+width: 80%;
+height: 180px;
+
+}
+
+.door span {
+
+font-size: 0.8rem;
+
+}
+
+}
+
+/* SMALL PHONES */
+
+@media (max-width: 480px) {
+
+.title {
+
+font-size: 1.8rem;
+
+}
+
+.door {
+
+height: 150px;
+
+}
+
+.sidebar {
+
+left: 10px;
+
+padding: 12px;
+
+min-width: 120px;
+
+}
+
+}
+
+/* TV MODE */
+
+@media (min-width: 1600px) {
+
+.door {
+
+width: 260px;
+height: 400px;
+
+}
+
+.title {
+
+font-size: 4rem;
+
+}
+
+}
+
+/* MENU BUTTON (hidden on desktop) */
+
+.menu-btn {
+
+position: fixed;
+top: 20px;
+left: 20px;
+
+width: 50px;
+height: 50px;
+
+border-radius: 12px;
+
+background: rgba(255,255,255,0.1);
+border: 1px solid rgba(255,255,255,0.2);
+
+color: white;
+font-size: 22px;
+
+cursor: pointer;
+
+display: none;
+
+z-index: 999;
+
+}
+
+/* SHOW ON MOBILE */
+
+@media (max-width: 768px) {
+
+.menu-btn {
+
+display: block;
+
+}
+
+}
+
+/* MOBILE SIDEBAR */
+
+@media (max-width: 768px) {
+
+.sidebar {
+
+left: -260px;
+top: 0;
+
+height: 100vh;
+
+transform: none;
+
+transition: left 0.3s ease;
+
+}
+
+.sidebar.active {
+
+left: 0;
+
+}
+
+}
+
+@media (max-width: 768px) {
+
+.sidebar {
+
+width: 240px;
+
+}
+
+.creator-links a {
+
+font-size: 14px;
+
+}
+
+}
+
+/* TABLET ONLY */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+.sidebar {
+
+left: -260px;
+
+top: 0;
+
+height: 100vh;
+
+width: 240px;
+
+flex-direction: column;
+
+transform: none;
+
+transition: left 0.3s ease;
+
+}
+
+.sidebar.active {
+
+left: 0;
+
+}
+
+.menu-btn {
+
+display: block;
+
+}
+
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+
+.sidebar {
+
+left: -260px;
+
+top: 0;
+
+height: 100vh;
+
+width: 240px;
+
+flex-direction: column;
+
+}
+
+.menu-btn {
+
+display: block;
+
+}
+
+}
+
+/* Links become horizontal */
+
+.creator-links {
+
+flex-direction: row;
+
+flex-wrap: wrap;
+
+justify-content: center;
+
+gap: 14px;
+
+}
+
+/* Move logo smaller */
+
+.logo {
+
+width: 28px;
+
+}
+
+/* Push main content down */
+
+.container {
+
+margin-top: 90px;
+
+}
+
+}
+
+@media (max-width: 1100px) {
+
+.doors {
+
+justify-content: center;
+
+flex-wrap: wrap;
+
+gap: 18px;
+
+}
+
+.door {
+
+width: 180px;
+height: 260px;
+
+}
+
+}
+
+@media (max-width: 1100px) {
+
+.sidebar {
+
+backdrop-filter: blur(10px);
+
+background: rgba(0,0,0,0.6);
+
+}
+
+}
+
+.sidebar-overlay {
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100vw;
+height: 100vh;
+
+background: rgba(0,0,0,0.6);
+
+display: none;
+
+z-index: 5;
+
+}
+
+.sidebar-overlay.active {
+
+display: block;
+
+}
+
+/* ========================= */
+/* DESKTOP RESET FIX */
+/* ========================= */
+
+@media (min-width: 1025px) {
+
+.sidebar {
+
+position: fixed;
+
+left: 40px;
+top: 50%;
+
+transform: translateY(-50%);
+
+width: 160px;
+
+flex-direction: column;
+
+height: auto;
+
+}
+
+.menu-btn {
+
+display: none;
+
+}
+
+.container {
+
+margin-left: 0;
+
+}
+
+}
+
+/* DESKTOP SIDEBAR SIZE IMPROVEMENT */
+
+@media (min-width: 1025px) {
+
+.sidebar {
+
+width: 220px; /* was ~160px */
+
+padding: 28px 22px;
+
+}
+
+.creator-links a {
+
+font-size: 14px;
+
+}
+
+.logo {
+
+width: 44px;
+
+}
+
+}
+
+@media (min-width: 1025px) {
+
+.container {
+
+margin-left: 120px;
+
+}
+
+}
+
+.creator-name {
+
+font-size: 15px;
+
+letter-spacing: 3px;
+
+font-weight: 500;
+
+opacity: 0.8;
+
+}
+
+@media (min-width: 1025px) {
+
+.sidebar {
+
+background: rgba(255,255,255,0.06);
+
+backdrop-filter: blur(12px);
+
+}
+
+}
+
+/* SIDEBAR TEXT CLEANUP */
+
+.creator-links a {
+
+display: flex;
+
+align-items: center;
+
+gap: 10px;
+
+font-size: 14px;
+
+line-height: 1.4;
+
+white-space: nowrap;
+
+}
+
+.creator-links a {
+
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
+
+}
+
+.creator-name {
+
+font-size: 14px;
+
+letter-spacing: 2px;
+
+font-weight: 500;
+
+opacity: 0.85;
+
+margin-bottom: 12px;
+
+}
+
+.creator-links a {
+
+padding: 6px 8px;
+
+border-radius: 8px;
+
+transition: 0.2s;
+
+}
+
+.creator-links a:hover {
+
+background: rgba(255,255,255,0.08);
+
+}
+
+.creator-links {
+
+display: flex;
+
+flex-direction: column;
+
+gap: 14px;
+
+}
+
+.creator-name {
+
+border-bottom: 1px solid rgba(255,255,255,0.1);
+
+padding-bottom: 8px;
+
+}
+
+/* FINAL SIDEBAR POLISH */
+
+.creator-links a {
+
+display: flex;
+align-items: center;
+
+gap: 12px;
+
+font-size: 15px;   /* slightly bigger */
+
+font-weight: 500;
+
+color: rgba(255,255,255,0.85);
+
+padding: 10px 12px;
+
+border-radius: 10px;
+
+transition: 0.2s;
+
+}
+
+.creator-links a {
+
+font-size: 15px;
+
+}
+
+.creator-links a span {
+
+font-size: 18px;
+
+}
+
+/* DESKTOP SIDEBAR WIDTH BOOST */
+
+@media (min-width: 1025px) {
+
+.sidebar {
+
+width: 260px;   /* was ~160–220 */
+
+padding: 28px 22px;
+
+}
+
+}
+
+@media (min-width: 1025px) {
+
+.container {
+
+margin-left: 160px;
+
+}
+
+}
+
+/* MOBILE SAFE SPACE FOR FLOATING BUTTONS */
+
+@media (max-width: 768px) {
+
+.container {
+
+padding-bottom: 120px;
+
+}
+
+}
+
+
+/* WATERMARK FIX */
+
+.footer {
+
+position: fixed;
+
+bottom: 20px;
+
+left: 50%;
+
+transform: translateX(-50%);
+
+text-align: center;
+
+width: auto;
+
+}
+
+/* ========================= */
+/* MODERN FLOATING AUDIO BUTTON */
+/* ========================= */
+
+.audio-btn {
+
+position: fixed;
+
+bottom: 40px;
+
+right: 20px;
+
+width: 52px;
+height: 52px;
+
+border-radius: 50%;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+font-size: 20px;
+
+background: rgba(255,255,255,0.08);
+
+backdrop-filter: blur(12px);
+
+border: 1px solid rgba(255,255,255,0.15);
+
+z-index: 20;
+
+}
+
+.audio-btn:hover {
+
+background: rgba(255,255,255,0.18);
+
+transform: scale(1.1);
+
+box-shadow:
+0 10px 26px rgba(0,0,0,0.5);
+
+}
+
+.audio-btn:active {
+
+transform: scale(0.95);
+
+}
+
+@media (max-width: 768px) {
+
+.audio-btn {
+
+width: 50px;
+height: 50px;
+
+bottom: 90px;
+right: 20px;
+
+font-size: 20px;
+
+}
+
+}
+
+.container {
+
+min-height: calc(100vh - 120px);
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+padding:
+
+40px 20px 140px 20px;
+
+}
+
+.sidebar {
+
+position: fixed;
+
+left: 20px;
+top: 50%;
+
+transform: translateY(-50%);
+
+width: 240px;
+
+}
+
+body {
+
+padding-bottom: 140px;
+
+}
+
+html {
+
+scroll-behavior: smooth;
+
+}
+
+.main-content {
+
+margin-left: 280px;
+
+}
+
+.container {
+
+padding-top: 80px;
+padding-bottom: 160px;
+
+}
+
+@media (max-width: 768px) {
+
+.main-content {
+
+margin-left: 0;
+
+}
+
+.sidebar {
+
+left: -260px;
+
+}
+
+.sidebar.active {
+
+left: 20px;
+
+}
+
+}
+
+
+/* For Mobile Phones */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2.2rem; /* Make title smaller so it doesn't wrap weirdly */
+    }
+
+    .doors {
+        flex-direction: column; /* Stack doors vertically on phones */
+        align-items: center;
+        gap: 20px;
+    }
+
+    .door {
+        width: 80%; /* Make doors wider on mobile */
+        height: 200px;
+    }
+}
+
+/* For Tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .door {
+        width: 150px; /* Medium size */
+        height: 250px;
+    }
+}
+
+/* For Big Screens (TV / 4K Monitors) */
+@media (min-width: 1920px) {
+    .title {
+        font-size: 5rem; /* Make it huge for TV */
+    }
+    .door {
+        width: 300px;
+        height: 450px;
+    }
+}
+
+@media (max-width: 600px) {
+    .back-btn, .music-page-btn {
+        padding: 15px 25px; /* Bigger area for thumbs */
+        font-size: 1.1rem;
+    }
+
+    .controls {
+        width: 90%; /* Make the player controls wider */
+        justify-content: space-around;
+        bottom: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .sidebar {
+        width: 100%; /* Take full width on mobile */
+        left: -100%; /* Hide it off-screen */
+    }
+    
+    .sidebar.active {
+        left: 0; /* Slide in full screen */
+    }
+}
+
+/* ========================================= */
+/* UNIVERSAL DEVICE OPTIMIZATION LAYER */
+/* (SAFE — DOES NOT BREAK LOGIC) */
+/* ========================================= */
+
+/* Allow full page scroll everywhere */
+
+html,
+body {
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+
+/* ========================================= */
+/* SAFE CONTAINER SCALING */
+/* ========================================= */
+
+.container {
+
+    width: 100%;
+    max-width: 1400px;
+
+    margin: auto;
+
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+
+
+/* ========================================= */
+/* DOOR GRID — PERFECT ALL DEVICES */
+/* ========================================= */
+
+.doors {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(150px, 1fr));
+
+    gap: clamp(14px, 2vw, 28px);
+
+    width: 100%;
+}
+
+
+
+/* ========================================= */
+/* DOOR SAFE SIZE */
+/* ========================================= */
+
+.door {
+
+    width: 100%;
+    height: clamp(180px, 28vw, 420px);
+
+}
+
+
+
+/* ========================================= */
+/* PLAYER CONTROLS SAFE ZONE */
+/* ========================================= */
+
+.controls {
+
+    width: min(90%, 600px);
+
+    justify-content: space-around;
+
+}
+
+
+
+/* ========================================= */
+/* MOBILE OPTIMIZATION */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+.controls {
+
+    padding: 16px 24px;
+
+    gap: 18px;
+
+}
+
+.controls button {
+
+    font-size: 30px;
+
+}
+
+.player-overlay {
+
+    bottom: 30px;
+
+}
+
+.music-page-btn {
+
+    right: 20px;
+
+    bottom: 30px;
+
+}
+
+.back-btn {
+
+    top: 20px;
+    left: 20px;
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* SMALL PHONES (≤480px) */
+/* ========================================= */
+
+@media (max-width: 480px) {
+
+.title {
+
+    font-size: 1.7rem;
+
+}
+
+.subtitle {
+
+    font-size: 0.65rem;
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* TABLET OPTIMIZATION */
+/* ========================================= */
+
+@media (min-width: 769px)
+and (max-width: 1024px) {
+
+.door {
+
+    height: 260px;
+
+}
+
+.controls {
+
+    width: 70%;
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* DESKTOP OPTIMIZATION */
+/* ========================================= */
+
+@media (min-width: 1025px) {
+
+.container {
+
+    max-width: 1500px;
+
+}
+
+.controls {
+
+    width: 500px;
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* TV MODE — FIX MASSIVE BUG */
+/* ========================================= */
+
+@media (min-width: 1600px) {
+
+.title {
+
+    font-size: 5rem;
+
+}
+
+.door {
+
+    width: 100%; /* FIXED — no more 2900px bug */
+
+    height: 460px;
+
+}
+
+.controls {
+
+    width: 650px;
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* MUSIC WORLD RESPONSIVE */
+/* ========================================= */
+
+@media (max-width: 900px) {
+
+.music-world {
+
+    flex-direction: column;
+
+}
+
+.music-sidebar {
+
+    width: 100%;
+
+    height: auto;
+
+}
+
+.music-player {
+
+    padding: 30px;
+
+}
+
+#cover {
+
+    width: min(90%, 420px);
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* SAFE SCROLL SPACE */
+/* ========================================= */
+
+body {
+
+    padding-bottom: 160px;
+
+}
+
+
+
+/* ========================================= */
+/* TOUCH FRIENDLY BUTTONS */
+/* ========================================= */
+
+button {
+
+    min-width: 48px;
+    min-height: 48px;
+
+}
+
+
+
+/* ========================================= */
+/* PREVENT ANY OVERFLOW */
+/* ========================================= */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ========================================= */
+/* DOOR SIZE REDUCTION */
+/* ========================================= */
+
+.door {
+
+    /* Makes doors noticeably smaller */
+    height: clamp(160px, 22vw, 340px);
+
+}
+
+/* Tablet */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+.door {
+
+    height: 240px;
+
+}
+
+}
+
+/* Desktop */
+
+@media (min-width: 1025px) {
+
+.door {
+
+    height: 300px;
+
+}
+
+}
+
+/* TV */
+
+@media (min-width: 1600px) {
+
+.door {
+
+    height: 360px;
+
+}
+
+}
+
+/* ========================================= */
+/* SIDEBAR SIZE IMPROVEMENT */
+/* ========================================= */
+
+.sidebar {
+
+    width: 280px; /* slightly wider */
+
+    padding: 20px 18px;
+
+    /* reduce visual height */
+    max-height: 80vh;
+
+    overflow-y: auto;
+
+}
+
+/* Desktop fine tuning */
+
+@media (min-width: 1025px) {
+
+.sidebar {
+
+    width: 280px;
+
+    max-height: 75vh;
+
+}
+
+}
+
+/* Mobile — full screen still */
+
+@media (max-width: 768px) {
+
+.sidebar {
+
+    width: 260px;
+
+}
+
+}
+
+/* ========================================= */
+/* MATCH FIRST IMAGE PROPORTIONS */
+/* ========================================= */
+
+/* Doors — smaller and balanced */
+
+.door {
+
+    width: clamp(160px, 14vw, 220px);
+
+    height: clamp(220px, 18vw, 300px);
+
+}
+
+
+
+/* Desktop alignment */
+
+@media (min-width: 1025px) {
+
+.doors {
+
+    gap: 26px;
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* SIDEBAR — shorter height + wider */
+/* ========================================= */
+
+.sidebar {
+
+    width: 300px;       /* wider */
+
+    max-height: 70vh;   /* shorter height */
+
+    padding: 22px 20px;
+
+    overflow-y: auto;
+
+}
+
+
+
+/* Desktop fine tuning */
+
+@media (min-width: 1025px) {
+
+.sidebar {
+
+    width: 300px;
+
+    max-height: 68vh;
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* KEEP TITLE + DOORS CENTERED */
+/* ========================================= */
+
+.container {
+
+    padding-top: 40px;
+
+}
+
+
+
+/* ========================================= */
+/* FIX EXTRA TALL LAYOUT */
+/* ========================================= */
+
+body {
+
+    padding-bottom: 120px;
+
+}
+
+/* ========================================= */
+/* FIX SIDEBAR OVERLAP */
+/* ========================================= */
+
+/* Push main content away from sidebar */
+
+@media (min-width: 1025px) {
+
+.container {
+
+    margin-left: 130px; /* space for sidebar */
+
+}
+
+}
+
+
+
+/* ========================================= */
+/* FIX DOOR SIZE (Balanced) */
+/* ========================================= */
+
+.doors {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 26px;
+
+    flex-wrap: wrap;
+
+}
+
+
+
+.door {
+
+    width: 200px;      /* controlled width */
+
+    height: 280px;     /* balanced height */
+
+}
+
+
+
+/* ========================================= */
+/* FIX SIDEBAR SIZE */
+/* ========================================= */
+
+.sidebar {
+
+    width: 270px;
+
+    max-height: 70vh;
+
+    overflow-y: auto;
+
+}
+
+
+
+/* ========================================= */
+/* CENTER EVERYTHING AGAIN */
+/* ========================================= */
+
+.container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+
+
+/* ========================================= */
+/* KEEP TITLE CENTERED */
+/* ========================================= */
+
+.title {
+
+    text-align: center;
+
+}
+
+
+
+/* ========================================= */
+/* MOBILE SAFE */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+.container {
+
+    margin-left: 0;
+
+}
+
+.door {
+
+    width: 160px;
+
+    height: 240px;
+
+}
+
+}
+
+/* ========================================= */
+/* FINAL DOOR HEIGHT BALANCE */
+/* ========================================= */
+
+.door {
+
+    width: 200px;      /* keep current width */
+    height: 310px;     /* was ~280px — increase slightly */
+
+}
+
+/* Tablet */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+.door {
+
+    width: 180px;
+    height: 280px;
+
+}
+
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+.door {
+
+    width: 160px;
+    height: 250px;
+
+}
+
+}
+
+/* Large Screens / TV */
+
+@media (min-width: 1600px) {
+
+.door {
+
+    width: 230px;
+    height: 360px;
+
+}
+
+}
+
+/* ========================================= */
+/* SPOTIFY STYLE MUSIC LAYOUT */
+/* ========================================= */
+
+.music-world {
+
+    display: grid;
+
+    grid-template-columns: 260px 1fr;
+
+    height: 100vh;
+
+    overflow: hidden;
+
+}
+
+
+
+/* LEFT PLAYLIST */
+
+.music-sidebar {
+
+    background: rgba(0,0,0,0.95);
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+    border-right: 1px solid rgba(255,255,255,0.08);
+
+}
+
+
+
+/* SONG LIST */
+
+.playlist {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+.song {
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    transition: 0.2s;
+
+    cursor: pointer;
+
+}
+
+.song:hover {
+
+    background: rgba(255,255,255,0.08);
+
+}
+
+
+
+/* MAIN PLAYER */
+
+.music-player {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 30px;
+
+}
+
+
+
+/* COVER IMAGE */
+
+#cover {
+
+    width: 300px;
+
+    border-radius: 16px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+
+}
+
+
+
+/* CONTROLS */
+
+.player-controls {
+
+    display: flex;
+
+    gap: 30px;
+
+    font-size: 28px;
+
+}
+
+
+
+/* PROGRESS BAR */
+
+#progressBar {
+
+    width: 60%;
+
+}
+
+
+
+/* VOLUME */
+
+#volumeControl {
+
+    width: 200px;
+
+}
+
+
+
+/* ========================================= */
+/* MOBILE MODE */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+.music-world {
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows: auto 1fr;
+
+}
+
+.music-sidebar {
+
+    height: 200px;
+
+}
+
+#cover {
+
+    width: 220px;
+
+}
+
+#progressBar {
+
+    width: 90%;
+
+}
+
+}
+
+.song.active {
+
+background: rgba(255,255,255,0.15);
+
+}
+
+/* ========================================= */
+/* PREMIUM SIDEBAR SCROLLBAR */
+/* ========================================= */
+
+/* Chrome, Edge, Brave */
+
+.sidebar::-webkit-scrollbar {
+
+width: 6px;
+
+}
+
+.sidebar::-webkit-scrollbar-track {
+
+background: transparent;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+
+background: rgba(255,255,255,0.25);
+
+border-radius: 10px;
+
+transition: 0.2s;
+
+}
+
+/* Hover effect */
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+
+background: rgba(255,255,255,0.5);
+
+}
+
+
+
+/* Firefox Support */
+
+.sidebar {
+
+scrollbar-width: thin;
+
+scrollbar-color: rgba(255,255,255,0.25) transparent;
+
+}
+
+/* ========================================= */
+/* MOBILE FULLSCREEN VIDEO FIX */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+body.video-page {
+
+display: block; /* stop centering */
+
+padding: 0;
+
+}
+
+/* Make video truly fullscreen */
+
+#bgVideo {
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100vw;
+height: 100vh;
+
+object-fit: cover;
+
+}
+
+/* Controls position */
+
+.player-overlay {
+
+bottom: 30px;
+
+width: 100%;
+
+padding: 0 10px;
+
+}
+
+/* Exit button position */
+
+.back-btn {
+
+top: 20px;
+left: 20px;
+
+}
+
+}
+
+/* ========================================= */
+/* MUSIC SIDEBAR SCROLL FIX */
+/* ========================================= */
+
+.music-sidebar {
+
+height: 100vh;
+
+overflow-y: auto;
+
+overflow-x: hidden;
+
+padding-right: 6px;
+
+}
+
+/* Premium scrollbar */
+
+.music-sidebar::-webkit-scrollbar {
+
+width: 6px;
+
+}
+
+.music-sidebar::-webkit-scrollbar-track {
+
+background: transparent;
+
+}
+
+.music-sidebar::-webkit-scrollbar-thumb {
+
+background: rgba(255,255,255,0.25);
+
+border-radius: 10px;
+
+}
+
+.music-sidebar::-webkit-scrollbar-thumb:hover {
+
+background: rgba(255,255,255,0.45);
+
+}
+
+/* Firefox */
+
+.music-sidebar {
+
+scrollbar-width: thin;
+
+scrollbar-color: rgba(255,255,255,0.25) transparent;
+
+}
+
+/* ========================================= */
+/* FIX MUSIC PAGE WIDTH */
+/* ========================================= */
+
+.music-world {
+
+max-width: 1200px;
+
+margin: auto;
+
+width: 100%;
+
+padding: 20px;
+
+}
+
+/* ========================================= */
+/* FIX PLAYER CONTROLS WIDTH */
+/* ========================================= */
+
+.player-controls {
+
+width: fit-content;
+
+max-width: 90%;
+
+margin: auto;
+
+gap: 18px;
+
+}
+
+
+
+/* Mobile Fix */
+
+@media (max-width: 768px) {
+
+.player-controls {
+
+gap: 14px;
+
+}
+
+#cover {
+
+width: 220px;
+
+}
+
+}
+
+/* Scroll inside playlist */
+
+.playlist {
+
+max-height: calc(100vh - 140px);
+
+overflow-y: auto;
+
+}
+
+/* ========================================= */
+/* PERFECT PORTRAIT VIDEO CENTER FIX */
+/* ========================================= */
+
+@media (orientation: portrait) {
+
+body.video-page {
+
+margin: 0;
+padding: 0;
+
+display: block;
+
+overflow: hidden;
+
+}
+
+/* Force video to fill screen */
+
+#bgVideo {
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100vw;
+height: 100vh;
+
+object-fit: cover;
+
+transform: none; /* remove translate */
+
+}
+
+/* Keep overlay centered */
+
+.player-overlay {
+
+width: 100%;
+
+left: 0;
+
+bottom: 30px;
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+}
+
+/* Fix exit button position */
+
+.back-btn {
+
+position: fixed;
+
+top: 20px;
+left: 20px;
+
+}
+
+}
+
+@media (orientation: portrait) {
+
+.controls {
+
+width: 90%;
+
+padding: 14px 18px;
+
+gap: 18px;
+
+}
+
+}
+
+/* ========================================= */
+/* ACTIVE SONG HIGHLIGHT */
+/* ========================================= */
+
+.song.active {
+
+background: rgba(255,255,255,0.15);
+
+border-left: 3px solid gold;
+
+padding-left: 10px;
+
+transition: 0.2s;
+
+}
+
+/* Hover polish */
+
+.song:hover {
+
+background: rgba(255,255,255,0.08);
+
+}
+
+.song.active {
+
+background: rgba(255,255,255,0.15);
+
+border-left: 3px solid gold;
+
+scroll-margin-top: 80px;
+
+}
+
+/* ========================================= */
+/* PREMIUM MUSIC BACKGROUND */
+/* ========================================= */
+
+body.music-page {
+
+background:
+
+radial-gradient(
+circle at 70% 40%,
+rgba(255,215,0,0.08),
+transparent 40%
+),
+
+radial-gradient(
+circle at 30% 70%,
+rgba(0,150,255,0.08),
+transparent 40%
+),
+
+#000;
+
+min-height: 100vh;
+
+}
+
+body.music-page::before {
+
+content: "";
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100%;
+height: 100%;
+
+background-image:
+url("images/noise.png");
+
+opacity: 0.03;
+
+pointer-events: none;
+
+z-index: 0;
+
+}
+
+#cover {
+
+border-radius: 20px;
+
+box-shadow:
+
+0 0 60px rgba(255,215,0,0.25),
+
+0 0 120px rgba(255,215,0,0.12);
+
+transition: 0.3s;
+
+}
+
+/* ========================================= */
+/* MUSIC PAGE — SAME THEME AS HOMEPAGE */
+/* ========================================= */
+
+body.music-page {
+
+background:
+
+radial-gradient(
+circle at 70% 30%,
+rgba(255,215,0,0.08),
+transparent 40%
+),
+
+radial-gradient(
+circle at 30% 70%,
+rgba(0,150,255,0.08),
+transparent 40%
+),
+
+radial-gradient(
+circle at 50% 50%,
+rgba(255,255,255,0.04),
+transparent 60%
+),
+
+#000;
+
+min-height: 100vh;
+
+}
+
+body.music-page::after {
+
+content: "";
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100%;
+height: 100%;
+
+background:
+
+radial-gradient(
+circle,
+rgba(255,255,255,0.03) 1px,
+transparent 1px
+);
+
+background-size: 60px 60px;
+
+pointer-events: none;
+
+z-index: 0;
+
+}
+
+.logo {
+
+transition: 0.3s;
+
+}
+
+.logo:hover {
+
+transform: scale(1.08);
+
+filter: drop-shadow(0 0 10px gold);
+
+}
+
+/* ========================================= */
+/* MOBILE MUSIC WORLD FIX — PORTRAIT */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+.music-world {
+
+    flex-direction: column;
+
+    height: auto;
+
+    min-height: 100vh;
+
+}
+
+/* Playlist becomes top section */
+
+.music-sidebar {
+
+    width: 100%;
+
+    height: 40vh;
+
+    overflow-y: auto;
+
+}
+
+/* Player becomes bottom section */
+
+.music-player {
+
+    width: 100%;
+
+    height: 60vh;
+
+    padding: 20px;
+
+}
+
+/* Album cover scaling */
+
+#cover {
+
+    width: min(85%, 300px);
+
+}
+
+}
+
+/* ========================================= */
+/* MOBILE LANDSCAPE SCROLL FIX */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+.music-world {
+
+    height: auto;        /* Remove height lock */
+
+    min-height: 100vh;   /* Still fills screen */
+
+    overflow-y: auto;    /* Enable vertical scroll */
+
+}
+
+/* Allow player content to extend */
+
+.music-player {
+
+    height: auto;
+
+    padding-bottom: 80px; /* Space for controls */
+
+}
+
+/* Make controls always reachable */
+
+.player-controls {
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+}
+
+}
+
+/* ========================================= */
+/* UNIVERSAL MUSIC SYSTEM SCROLL FIX */
+/* Works on ALL devices */
+/* ========================================= */
+
+.music-world {
+
+    height: auto;          /* Remove height lock */
+
+    min-height: 100vh;     /* Fill screen */
+
+    overflow-y: auto;      /* Enable scrolling */
+
+}
+
+/* Playlist scroll area */
+
+.music-sidebar {
+
+    max-height: 100vh;
+
+    overflow-y: auto;
+
+}
+
+/* Player scroll safety */
+
+.music-player {
+
+    height: auto;
+
+    padding-bottom: 100px; /* Space for controls */
+
+}
+
+.music-sidebar {
+
+    position: sticky;
+
+    top: 0;
+
+}
+
+#cover {
+
+    max-width: 90%;
+
+    height: auto;
+
+}
+
+.time-info {
+
+display: flex;
+
+gap: 6px;
+
+font-size: 14px;
+
+opacity: 0.8;
+
+}
+
+#volumeValue {
+
+font-size: 13px;
+
+opacity: 0.7;
+
+margin-left: 8px;
+
+}
+
+/* ========================================= */
+/* TABLET SIDEBAR FIX */
+/* iPad Portrait + Landscape */
+/* ========================================= */
+
+@media (max-width: 1024px) {
+
+.sidebar {
+
+    width: 260px;
+
+    left: -260px; /* match width exactly */
+
+    top: 0;
+
+    height: 100vh;
+
+    transform: none;
+
+    transition: left 0.3s ease;
+
+}
+
+/* When opened */
+
+.sidebar.active {
+
+    left: 0;
+
+}
+
+/* Prevent content shift */
+
+.container {
+
+    margin-left: 0;
+
+}
+
+}
+
+@media (max-width: 600px) {
+
+.controls {
+
+    padding: 14px 18px;
+
+    gap: 14px;
+
+}
+
+}
+
+.controls button {
+
+    font-size: 24px;
+
+    min-width: 48px;
+
+    min-height: 48px;
+
+}
+
+/* ========================================= */
+/* FIX SMALL VIDEO — LANDSCAPE MOBILE */
+/* ========================================= */
+
+@media (max-width: 768px) 
+and (orientation: landscape) {
+
+.video-page video {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+
+    height: 100vh;
+
+    object-fit: cover;
+
+}
+
+}
+
+/* ========================================= */
+/* FIX VIDEO — PORTRAIT */
+/* ========================================= */
+
+@media (max-width: 768px) {
+
+.video-page video {
+
+    width: 100vw;
+
+    height: 100vh;
+
+    object-fit: cover;
+
+}
+
+}
+
+/* ========================================= */
+/* FORCE FULLSCREEN VIDEO — ALL DEVICES */
+/* ========================================= */
+
+.video-page video {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+
+    height: 100vh;
+
+    object-fit: cover;
+
+    z-index: -1;
+
+}
+
+.video-page {
+
+    overflow: hidden;
+
+}
+
+/* Main Control Panel */
+
+.control-bar {
+
+position: fixed;
+
+bottom: 40px;
+left: 50%;
+
+transform: translateX(-50%);
+
+z-index: 10;
+
+/* prevents resizing jumps */
+min-height: 70px;
+
+}
+
+
+
+/* Music Button — FIXED RIGHT */
+
+.music-btn {
+
+position: fixed;
+
+bottom: 40px;
+right: 30px;
+
+z-index: 11;
+
+/* prevents jump */
+min-height: 50px;
+
+}
+
+@media (max-width: 768px) {
+
+.player-overlay {
+
+bottom: 80px;
+
+}
+
+.audio-btn {
+
+bottom: 20px;
+
+right: 20px;
+
+}
+
+}
+
+.music-page-btn {
+
+bottom: 40px;
+right: 30px;
+
+z-index: 11;
+
+}
+
+.video-info {
+
+position: fixed;
+
+bottom: 110px;
+
+left: 50%;
+
+transform: translateX(-50%);
+
+text-align: center;
+
+font-size: 16px;
+
+opacity: 0.9;
+
+z-index: 10;
+
+}
+
+.video-info {
+
+position: fixed;
+
+bottom: 175px;
+
+left: 50%;
+
+transform: translateX(-50%);
+
+text-align: center;
+
+font-size: 15px;
+
+opacity: 0.95;
+
+z-index: 10;
+
+}
+
+.control-bar {
+
+position: fixed;
+
+bottom: 40px;
+
+left: 50%;
+
+transform: translateX(-50%);
+
+z-index: 10;
+
+/* keeps layout stable */
+width: auto;
+
+}
+
+@media (max-width: 768px) {
+
+.music-page-btn {
+
+bottom: 130px;
+
+right: 18px;
+
+}
+
+.video-info {
+
+bottom: 185px;
+
+}
+
+}
+
+.music-page-btn {
+
+text-decoration: none;   /* removes underline */
+
+color: white;            /* removes blue color */
+
+}
+
+
+/* ========================================= */
+/* UNIVERSAL CONTROL CENTER FIX */
+/* (Fixes Fantasy, Dark, Nostalgic) */
+/* ========================================= */
+
+.control-bar {
+
+position: fixed;
+
+bottom: 40px;
+
+left: 50%;
+
+transform: translateX(-50%);
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+z-index: 10;
+
+width: 100%;
+
+pointer-events: none;
+
+}
+
+/* Actual button group */
+
+.controls {
+
+display: flex;
+
+gap: 18px;
+
+padding: 14px 22px;
+
+border-radius: 60px;
+
+background: rgba(255,255,255,0.1);
+
+backdrop-filter: blur(12px);
+
+border: 1px solid rgba(255,255,255,0.2);
+
+/* CRITICAL FIX */
+
+width: fit-content;
+
+margin: auto;
+
+pointer-events: auto;
+
+}
+
+@media (max-width: 768px) {
+
+.control-bar {
+
+bottom: 30px;
+
+}
+
+.controls {
+
+width: auto;
+
+max-width: 90%;
+
+justify-content: center;
+
+}
+
+}
+
+/* ========================================= */
+/* LOCK MODE — IMMERSIVE VIEW */
+/* ========================================= */
+
+/* LOCK MODE */
+
+.locked .controls,
+.locked .back-btn,
+.locked .music-page-btn,
+.locked .video-info {
+
+opacity: 0;
+pointer-events: none;
+
+}
+
+/* NEVER hide unlock button */
+
+.unlock-btn {
+
+position: fixed;
+
+bottom: 50%;
+left: 50%;
+
+transform: translate(-50%, 50%);
+
+z-index: 9999;
+
+padding: 14px 18px;
+
+border-radius: 50px;
+
+background: rgba(0,0,0,0.5);
+
+color: white;
+
+border: 1px solid rgba(255,255,255,0.3);
+
+display: none;
+
+font-size: 16px;
+
+cursor: pointer;
+
+}
+
+/* Show when tapped */
+
+.unlock-btn.show {
+
+display: block;
+
+}
+
+/* ========================= */
+/* LOADER SCREEN */
+/* ========================= */
+
+.loader {
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100vw;
+height: 100vh;
+
+background: black;
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+z-index: 9999;
+
+font-size: 22px;
+
+letter-spacing: 2px;
+
+color: white;
+
+animation: fadePulse 1.5s infinite;
+
+}
+
+/* Text animation */
+
+@keyframes fadePulse {
+
+0% { opacity: 0.3; }
+
+50% { opacity: 1; }
+
+100% { opacity: 0.3; }
+
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<link rel="icon" type="image/x-icon"
+href="images/favicon.jpg">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fantasy World | Immersive Player</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="video-page">
+
+<a href="index.html" class="back-btn">
+
+← <span>Exit World</span>
+
+</a>
+
+<div id="loader" class="loader">
+
+<span>Entering World...</span>
+
+</div>
+
+<video
+id="bgVideo"
+preload="metadata"
+playsinline
+loop>
+</video>
+
+<div id="rotateMessage">
+
+📱 Please rotate your device  
+for the best experience
+
+</div>
+
+
+<div class="control-bar">
+
+<div class="video-info">
+
+<span id="videoName">Mystic Forest</span>
+
+</div>
+
+<div class="controls glass">
+
+<button onclick="prevVideo()">⏮</button>
+
+<button onclick="togglePlay()" id="playBtn">⏸</button>
+
+<button onclick="nextVideo()">⏭</button>
+<button onclick="toggleFullscreen()" id="fullscreenBtn">⛶</button>
+<button onclick="toggleLock()" id="lockBtn">🔒</button>
+
+</div>
+
+</div>
+<a href="music.html" class="music-page-btn">
+
+🎧 Music
+
+</a>
+
+<button onclick="toggleLock()"
+class="unlock-btn"
+id="unlockBtn">
+
+🔓 Unlock
+
+</button>
+
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="js/fantasy.js"></script>
+<script src="js/music.js"></script>
+
+
+</body>
+</html>
